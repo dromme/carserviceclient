@@ -23,7 +23,7 @@ export class CarEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      const id = params['id'];
+      const id = params.id;
       if (id) {
         this.carService.get(id).subscribe((car: any) => {
           if (car) {
@@ -58,5 +58,6 @@ export class CarEditComponent implements OnInit, OnDestroy {
       this.gotoList();
     }, error => console.error(error));
   }
+
 }
 

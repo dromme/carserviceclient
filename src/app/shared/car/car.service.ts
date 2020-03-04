@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class CarService {
@@ -30,5 +31,17 @@ export class CarService {
 
   remove(href: string) {
     return this.http.delete(href);
+  }
+
+  removeAssociation(ownerId: string) {
+    debugger;
+    this.getAll().subscribe(data => {
+      for (const car of data) {
+        if (ownerId === car.ownerDni) {
+          const newCar = {...car, ownerDni: null};
+          this.save(newCar).pipe(take(1)).subscribe();
+        }
+      }
+    });
   }
 }
