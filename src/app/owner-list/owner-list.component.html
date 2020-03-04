@@ -1,12 +1,12 @@
 <mat-card>
   <mat-card-title>Owner List</mat-card-title>
   <mat-card-content>
-    <mat-selection-list #shoes>
-      <mat-list-option *ngFor="let owner of owners">
+    <mat-selection-list #ownersList>
+      <mat-list-option *ngFor="let owner of owners" [value]="owner" >
         <a [routerLink]="['/owner-edit', owner.id]">
-          {{ owner?.name }} DNI: {{ owner?.dni }}</a
+          {{ owner?.name }} </a
         >
-
+        DNI: {{ owner?.dni }}
         Profession: {{ owner?.profession }}
 
         <mat-divider></mat-divider>
@@ -15,4 +15,13 @@
   </mat-card-content>
 
   <button mat-fab color="primary" [routerLink]="['/owner-add']">Add</button>
+  <button
+    mat-fab
+    color="primary"
+    (click)="deleteMany(ownersList.selectedOptions.selected)"
+    [disabled]="!(ownersList.selectedOptions.selected.length > 0)"
+  >
+    Delete
+  </button>
+  <p> Selecteds: {{ ownersList.selectedOptions.selected.length }}</p>
 </mat-card>

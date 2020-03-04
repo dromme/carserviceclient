@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { OwnerService } from '../shared/owner/owner.service';
+import { CarService } from "../shared/car/car.service";
+import { OwnerService } from "../shared/owner/owner.service";
 
 @Component({
   selector: "app-owner-list",
@@ -9,7 +11,11 @@ import { OwnerService } from '../shared/owner/owner.service';
 })
 export class OwnerListComponent implements OnInit {
   owners = [];
-  constructor(private ownerService: OwnerService) {}
+  constructor(
+    private router: Router,
+    private ownerService: OwnerService,
+    private carService: CarService
+  ) {}
 
   ngOnInit() {
     this.ownerService.getAll().subscribe(data => {
@@ -20,7 +26,12 @@ export class OwnerListComponent implements OnInit {
 
   addId() {
     return this.owners.map(
-      owner => owner = { ...owner, id: this.getId(owner._links) }
+      owner =>
+        (owner = {
+          ...owner,
+          id: this.getId(owner._links),
+          href: owner._links.self.href
+        })
     );
   }
 
@@ -28,6 +39,19 @@ export class OwnerListComponent implements OnInit {
     if (links && links.self && links.self.href) {
       return links.self.href.slice(-2);
     }
-    return '';
+    return "";
+  }
+
+  deleteMany(selecteds: any[]) {
+    selecteds.forEach(owner => {
+      this.carService.removeAssociation(owner.value.dni);
+      this.ownerService.remove(owner.value.href).subscribe(
+        result => {},
+        error => console.error(error)
+      );
+    });
+    setTimeout(() => {
+      window.location.reload();
+    }, 4000);
   }
 }

@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { OwnerService } from '../shared/owner/owner.service';
 import { CarService } from '../shared/car/car.service';
+import { OwnerService } from '../shared/owner/owner.service';
 
 @Component({
   selector: 'app-owner-edit',

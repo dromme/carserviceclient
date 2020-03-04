@@ -21,7 +21,7 @@ export class CarService {
 
   save(car: any): Observable<any> {
     let result: Observable<Object>;
-    if (car['href']) {
+    if (car.href) {
       result = this.http.put(car.href, car);
     } else {
       result = this.http.post(this.CAR_API, car);
@@ -34,7 +34,6 @@ export class CarService {
   }
 
   removeAssociation(ownerId: string) {
-    debugger;
     this.getAll().subscribe(data => {
       for (const car of data) {
         if (ownerId === car.ownerDni) {
