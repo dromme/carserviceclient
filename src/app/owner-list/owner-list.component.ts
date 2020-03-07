@@ -37,7 +37,7 @@ export class OwnerListComponent implements OnInit {
 
   private getId(links): string {
     if (links && links.self && links.self.href) {
-      return links.self.href.slice(-2);
+      return links.self.href.split('owners/')[1];
     }
     return "";
   }
